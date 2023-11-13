@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  php-apache:
+    container_name: php8-apache
+    build: ./phpteste
+    ports:
+      - "8000:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./phpteste/config/config.ini:/usr/local/etc/php/conf.d/jit.ini
+      - ./phpteste/config/timezone.ini:/usr/local/etc/php/conf.d/timezone.ini
+    
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: fer@1212
+    volumes:
+      - "./db:/var/lib/mysql"
+    ports:
+      - "10000:3306"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
